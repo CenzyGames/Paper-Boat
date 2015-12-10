@@ -8,12 +8,24 @@ public class machliScript : MonoBehaviour {
     public float distance;
     public float position;
     public float angle;
+
+    public GameObject ripple;
+    GameObject ripple_clone;
+    public float rippleDelay;
+
     void Start ()
     {
-
-
-	
+        StartCoroutine("createRipple");
 	}
+
+    IEnumerator createRipple()
+    {
+        ripple_clone = Instantiate(ripple, transform.position - (Vector3.right*0.25f), Quaternion.identity) as GameObject;
+        ripple_clone.GetComponent<rippleScript>().delay = 1.0f;
+        ripple_clone.GetComponent<rippleScript>().rippleScale = 0.001f;
+        yield return new WaitForSeconds(rippleDelay);
+        StartCoroutine("createRipple");
+    }
 
 	void Update ()
     {
@@ -23,5 +35,10 @@ public class machliScript : MonoBehaviour {
         transform.position = new Vector3(transform.position.x, transform.position.y, position + val);
         transform.position += new Vector3(-0.015f, 0, 0);
         count += speed;
-	}
+
+        if (transform.position.x < -4.0f)
+        {
+            Destroy(gameObject);
+        }
+    }
 }

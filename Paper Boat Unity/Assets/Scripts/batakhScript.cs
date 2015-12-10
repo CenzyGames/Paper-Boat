@@ -1,73 +1,42 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class batakhScript : MonoBehaviour {
     float length;
-    [SerializeField] float value;
-    [SerializeField]
-    float value2;
-    [SerializeField] float count;
+    float speed;
+    int goUp;
 
-    [SerializeField] Vector3 rotateDuck;
-    public float rotateAngle;
+    public GameObject ripple;
+    GameObject ripple_clone;
+    public float rippleDelay;
 
-	void Start ()
+    void Start ()
     {
-        length = 0.35f;
-        StartCoroutine("moveDuck");
-	}
-
-    IEnumerator moveDuck()
-    {
-        yield return new WaitForSeconds(Time.deltaTime);
-        value = Mathf.Sin(count) * 0.35f;
-        value2 = Mathf.Sin(count);
-        transform.localPosition += new Vector3(0, 0, -0.005f);
-       // transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -0.75f - value);
-        count += 0.01f;
-        if (transform.position.z < -1.1f)
-        {
-            StopCoroutine("moveDuck");
-        }
-        else
-        {
-            StartCoroutine("moveDuck");
-        }
-        /*
-         if (value > 0.345f && rotateAngle == 180)
-         {
-             changeAngle();
-         }
-         else if (value < -0.345f && rotateAngle == 0)
-         {
-             changeAngle();
-         }
-         else
-         {
-             StartCoroutine("moveDuck");
-         }*/
+        goUp = Random.Range(0, 2);
+        transform.position = goUp == 0 ? new Vector3(transform.position.x, transform.position.y, -1.6f) : new Vector3(transform.position.x, transform.position.y, -0.4f);
+        transform.eulerAngles = goUp == 0 ? new Vector3(transform.eulerAngles.x, 0, transform.eulerAngles.z) : new Vector3(transform.eulerAngles.x, 180, transform.eulerAngles.z);
+        length = goUp == 0 ? 1 : -1;
+        speed = Random.Range(0.002f, 0.004f);
+        StartCoroutine("createRipple");
     }
 
-    IEnumerator rotate()
+    IEnumerator createRipple()
     {
-        yield return new WaitForSeconds(Time.deltaTime);
-        transform.localEulerAngles += new Vector3(0,-4,0);
-        if (Mathf.Floor(transform.localEulerAngles.y) == rotateAngle)
-        {
-            StartCoroutine("moveDuck");
-            StopCoroutine("rotate");
-        }
-        else
-        {
-            StartCoroutine("rotate");
-        }
-       
+        ripple_clone = Instantiate(ripple, transform.position + (Vector3.up * 0.035f), Quaternion.identity) as GameObject;
+        ripple_clone.GetComponent<rippleScript>().delay = 1.0f;
+        ripple_clone.GetComponent<rippleScript>().rippleScale = 0.001f;
+        ripple_clone.GetComponent<rippleScript>().move = Vector3.left * 0.01f;
+        yield return new WaitForSeconds(rippleDelay);
+        StartCoroutine("createRipple");
     }
 
-    void changeAngle()
-    {
-        rotateAngle += value < 0 ? 180 : -180;
-        StartCoroutine("rotate");
-        StopCoroutine("moveDuck");
+    void Update()
+    { 
+        transform.position += new Vector3(-0.01f,0,speed*length);
+        if (transform.position.x < -4.0f)
+        {
+            Destroy(gameObject);
+        }
     }
 }
