@@ -12,6 +12,7 @@ public class levelManagerScript : MonoBehaviour {
 
     string[] names;
     int plainCount;
+
 	void Start ()
     {
         poolObj = new GameObject[5];
@@ -42,7 +43,7 @@ public class levelManagerScript : MonoBehaviour {
             if (poolObj[i].activeSelf)
             {
                 poolObj[i].transform.position += new Vector3(-0.01f, 0, 0) * Time.timeScale;
-                if (poolObj[i].transform.position.x < -3.99f)
+                if (poolObj[i].transform.position.x < -3.98f)
                 {
                     poolObj[i].SetActive(false);
                     poolObj[i].transform.position = new Vector3(20, 0, 0);
@@ -70,7 +71,6 @@ public class levelManagerScript : MonoBehaviour {
             }
             spawnCount = 0;
         }
-
         createNewLevel(objName);
     }
 
@@ -85,7 +85,10 @@ public class levelManagerScript : MonoBehaviour {
     void setLevels()
     {
         pos = 0;
-        for (i = 0; i < 5; i++)
+        poolObj[2].SetActive(true);
+        poolObj[2].transform.position = new Vector3(pos, 0, 0);
+        pos += 4;
+        for (i = 0; i < 4; i++)
         {
             if (poolObj[i].name == names[0])
             {

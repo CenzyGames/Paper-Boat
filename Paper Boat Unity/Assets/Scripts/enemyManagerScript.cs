@@ -7,12 +7,21 @@ public class enemyManagerScript : MonoBehaviour
     enum obj{petal, duck, fish, island};
     public GameObject[] objects;
     GameObject currentObject;
+    public GameObject slip;
     int objNum;
 
 	void Start ()
     {
         StartCoroutine("spawnObj");
-	}
+        StartCoroutine("spawnSlip");
+    }
+
+    IEnumerator spawnSlip()
+    {
+        yield return new WaitForSeconds(1.0f);
+        Instantiate(slip,slip.transform.position, Quaternion.identity);
+        StartCoroutine("spawnSlip");
+    }
 
     IEnumerator spawnObj()
     {

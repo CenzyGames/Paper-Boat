@@ -29,7 +29,6 @@ public class inputManagerScript : MonoBehaviour
                 if (hit.collider.name == "collider")
                 {
                     rippleClone = Instantiate(ripple, hit.point, Quaternion.identity) as GameObject;
-                    rippleClone.GetComponent<rippleScript>().move = Vector3.left * 0.0075f;
                     ball = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                     ball.name = "ball";
                     ball.tag = "ball";

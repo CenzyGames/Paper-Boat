@@ -59,6 +59,7 @@
      <Compile Include="Assets\Scripts\machliScript.cs" />
      <Compile Include="Assets\Scripts\uiScript.cs" />
      <Compile Include="Assets\rippleScript.cs" />
+     <Compile Include="Assets\slipScript.cs" />
      <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />

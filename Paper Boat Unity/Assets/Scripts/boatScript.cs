@@ -15,6 +15,7 @@ public class boatScript : MonoBehaviour
     float camXPos;
     float xDiff;
 
+    public GameObject canvas;
     void Start()
     {
         xPos = transform.position.x;
@@ -45,4 +46,13 @@ public class boatScript : MonoBehaviour
             print("game over");
         }
 	}
+
+    void OnTriggerEnter(Collider pCol)
+    {
+        if (pCol.gameObject.tag == "slip")
+        {
+            Destroy(pCol.gameObject);
+            canvas.GetComponent<uiScript>().addSlips();
+        }
+    }
 }
